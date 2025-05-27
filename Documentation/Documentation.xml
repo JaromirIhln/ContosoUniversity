@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ContosoUniversity</name>
+    </assembly>
+    <members>
+        <member name="T:ContosoUniversity.Migrations.Initialcreate">
+            <inheritdoc />
+        </member>
+        <member name="M:ContosoUniversity.Migrations.Initialcreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ContosoUniversity.Migrations.Initialcreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ContosoUniversity.Migrations.Initialcreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ContosoUniversity.Models.Course">
+            <summary>
+            Represents a course in the school system.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Course.CourseID">
+            <summary>
+            Gets or sets the unique identifier for the course.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Course.Title">
+            <summary>
+            Gets or sets the title of the course.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Course.Credits">
+            <summary>
+            Gets or sets the number of credits awarded for completing the course.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Course.Enrollments">
+            <summary>
+            Gets or sets the collection of enrollments associated with the course.
+            </summary>
+        </member>
+        <member name="T:ContosoUniversity.Models.Grade">
+            <summary>
+            Represents an enrollment in a course for a student.
+            </summary>
+        </member>
+        <member name="T:ContosoUniversity.Models.Enrollment">
+            <summary>
+            Represents an enrollment record that links a 
+            student to a course and includes the student's grade.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Enrollment.EnrollmentID">
+            <summary>
+            Gets or sets the unique identifier for the enrollment record.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Enrollment.CourseID">
+            <summary>
+            Gets or sets the unique identifier for the course associated with the enrollment.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Enrollment.StudentID">
+            <summary>
+            Gets or sets the unique identifier for the student associated with the enrollment.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Enrollment.Grade">
+            <summary>
+            Gets or sets the grade received by the student in the course.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Enrollment.Course">
+            <summary>
+            Gets or sets the course associated with the enrollment.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Enrollment.Student">
+            <summary>
+            Gets or sets the student associated with the enrollment.
+            </summary>
+        </member>
+        <member name="T:ContosoUniversity.Models.SchoolViewModels.EnrollmentDateGroup">
+            <summary>
+            Represents a group of students enrolled on a specific date.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.SchoolViewModels.EnrollmentDateGroup.EnrollmentDate">
+            <summary>
+            Represents the enrollment date for a group of students.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.SchoolViewModels.EnrollmentDateGroup.StudentCount">
+            <summary>
+            Represents the number of students enrolled on the specified enrollment date.
+            </summary>
+        </member>
+        <member name="T:ContosoUniversity.Models.Student">
+            <summary>
+            Represents a student in the Contoso University system.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Student.ID">
+            <summary>
+            Gets or sets the unique identifier for the student.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Student.LastName">
+            <summary>
+            Gets or sets the last name of the student.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Student.FirstMidName">
+            <summary>
+            Gets or sets the first and middle name of the student.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Student.EnrollmentDate">
+            <summary>
+            Gets or sets the date when the student enrolled in the university.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Models.Student.Enrollments">
+            <summary>
+            Gets or sets the collection of enrollments associated with the student.
+            </summary>
+        </member>
+        <member name="T:ContosoUniversity.Pages.Students.DeleteModel">
+            <summary>
+            Represents the model for the Students Delete page.
+            </summary>
+        </member>
+        <member name="F:ContosoUniversity.Pages.Students.DeleteModel._context">
+            <summary>
+            Represents the model for the Students Delete page.
+            </summary>
+        </member>
+        <member name="F:ContosoUniversity.Pages.Students.DeleteModel._logger">
+            <summary>
+            Logger for the delete operation.
+            </summary>
+        </member>
+        <member name="M:ContosoUniversity.Pages.Students.DeleteModel.#ctor(ContosoUniversity.Data.SchoolContext,Microsoft.Extensions.Logging.ILogger{ContosoUniversity.Pages.Students.DeleteModel})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ContosoUniversity.Pages.Students.DeleteModel"/> class.
+            </summary>
+            <param name="context">Db content</param>
+            <param name="logger">logger for delete</param>
+        </member>
+        <member name="P:ContosoUniversity.Pages.Students.DeleteModel.Student">
+            <summary>
+            Represents the student to be deleted.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Pages.Students.DeleteModel.ErrorMessage">
+            <summary>
+            Error message to display if deletion fails.
+            </summary>
+        </member>
+        <member name="M:ContosoUniversity.Pages.Students.DeleteModel.OnGetAsync(System.Nullable{System.Int32},System.Nullable{System.Boolean})">
+            <summary>
+            Gets the student details for deletion confirmation.
+            </summary>
+            <param name="id">Student id to get</param>
+            <param name="saveChangesError">Error message if fialed</param>
+            <returns>Succes as student deletion or error if failed</returns>
+        </member>
+        <member name="M:ContosoUniversity.Pages.Students.DeleteModel.OnPostAsync(System.Nullable{System.Int32})">
+            <summary>
+            Edit or delete students
+            </summary>
+            <param name="id">Student id to delete</param>
+            <returns>Deleted student or error if fialed</returns>
+        </member>
+        <member name="M:ContosoUniversity.Pages.Students.EditModel.OnGetAsync(System.Nullable{System.Int32})">
+            <summary>
+            Handles the GET request for the Students Edit page.
+            </summary>
+            <param name="id">id to find</param>
+            <returns>Student detail</returns>
+        </member>
+        <member name="M:ContosoUniversity.Pages.Students.EditModel.OnPostAsync(System.Int32)">
+            <summary>
+            Handles the POST request for the Students Edit page.
+            </summary>
+            <param name="id">Student id to edit</param>
+            <returns>Updated information of student</returns>
+        </member>
+        <member name="T:ContosoUniversity.Pages.Students.IndexModel">
+            <summary>
+            Represents the model for the Students Index page.
+            </summary>
+        </member>
+        <member name="M:ContosoUniversity.Pages.Students.IndexModel.#ctor(ContosoUniversity.Data.SchoolContext,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ContosoUniversity.Pages.Students.IndexModel"/> class.
+            </summary>
+            <param name="context">The database context.</param>
+            <param name="configuration">The configuration settings.</param>
+        </member>
+        <member name="P:ContosoUniversity.Pages.Students.IndexModel.NameSort">
+            <summary>
+            Gets or sets the sort order for the student list.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Pages.Students.IndexModel.DateSort">
+            <summary>
+            Gets or sets the date sort order for the student list.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Pages.Students.IndexModel.CurrentFilter">
+            <summary>
+            Gets or sets the current filter string for searching students.
+            </summary>
+        </member>
+        <member name="P:ContosoUniversity.Pages.Students.IndexModel.CurrentSort">
+            <summary>
+            Gets or sets the current sort order for the student list.
+            </summary>
+        </member>
+        <member name="M:ContosoUniversity.Pages.Students.IndexModel.OnGetAsync(System.String,System.String,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Handles the GET request for the Students Index page.
+            </summary>
+        </member>
+    </members>
+</doc>

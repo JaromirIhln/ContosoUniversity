@@ -1,0 +1,183 @@
+﻿Datový model
+Následující části vytvářejí datový model:
+
+Diagram datového modelu pro zápis do kurzu a studenty: wwwroot/diagrams/StudentCourseDiagram.png
+
+Student se může zapsat do libovolného počtu kurzů a kurz může mít zapsaný
+libovolný počet studentů.
+
+Entita Student:
+Diagram entity studenta: wwwroot/diagrams/StudentEntity.png
+
+Vytvořte složku 'Models' ve složce projektu.
+Vytvořte Models/Student.cspomocí následujícího kódu:
+namespace ContosoUniversity.Models
+{
+    public class Student
+    {
+        public int ID { get; set; }
+        public string LastName { get; set; }
+        public string FirstMidName { get; set; }
+        public DateTime EnrollmentDate { get; set; }
+
+        public ICollection<Enrollment> Enrollments { get; set; }// Bude červěně podtrženo, protože Enrollment ještě neexistuje - vytvoříme jej v nasledujícím kroku.
+    }
+}
+
+Entita registrace - Enrollment
+Diagram entity registrace
+
+Vytvořte Models/Enrollment.cspomocí následujícího kódu:
+using System.ComponentModel.DataAnnotations;
+
+namespace ContosoUniversity.Models
+{
+    public enum Grade
+    {
+        A, B, C, D, F
+    }
+
+    public class Enrollment
+    {
+        public int EnrollmentID { get; set; }
+        public int CourseID { get; set; }
+        public int StudentID { get; set; }
+        [DisplayFormat(NullDisplayText = "No grade")]
+        public Grade? Grade { get; set; }
+
+        public Course Course { get; set; }// Bude červěně podtrženo, protože Course ještě neexistuje - vytvoříme jej v nasledujícím kroku.
+        public Student Student { get; set; }
+    }
+}
+
+Entita Kurz - Course
+Diagram entity kurzu
+
+Vytvořte Models/Course.cspomocí následujícího kódu:
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ContosoUniversity.Models
+{
+    public class Course
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int CourseID { get; set; }
+        public string Title { get; set; }
+        public int Credits { get; set; }
+
+        public ICollection<Enrollment> Enrollments { get; set; }
+    }
+}
+Vlastnost EnrollmentIDje primárním klíčem; tato entita používá daný 
+classnameID vzor, nikoli IDsamotnou. Pro produkční datový model 
+si mnoho vývojářů vybere jeden vzor a používá ho konzistentně. 
+Tento tutoriál používá oba pouze pro ilustraci, že oba fungují. 
+Použití vlastnosti „ IDwithout“ classname usnadňuje implementaci 
+některých druhů změn datového modelu.
+
+Vlastnost Enrollmentsje navigační vlastností.
+CourseEntita může být vztažena k libovolnému počtu Enrollmententit.
+
+
+
+Studentské stránky Scaffold
+V této části se nástroj pro generování databáze ASP.NET Core používá k vygenerování:
+
+Třída EF Core DbContext. Kontext je hlavní třída, která koordinuje funkce Entity Framework pro daný datový model. Je odvozena od třídy Microsoft.EntityFrameworkCore.DbContext .
+Stránky Razor, které zpracovávají operace CRUD (Create, Read, Update a Delete) pro Studententitu.
+Vytvořte složku Stránky/Studenti .
+V Průzkumníku řešení klikněte pravým tlačítkem myši na složku Pages/Students a vyberte Přidat > Nová generovaná položka .
+V dialogovém okně Přidat novou položku generování lešení :
+Na levé kartě vyberte Nainstalované > Běžné > Razor Pages.
+Vyberte Razor Pages pomocí Entity Framework (CRUD) > ADD .
+V dialogovém okně Přidat stránky Razor pomocí Entity Framework (CRUD) :
+V rozevíracím seznamu Třída modelu vyberte možnost Student (ContosoUniversity.Models) .
+V řádku Třída kontextu dat vyberte znaménko + (plus).
+Změňte název datového kontextu tak, aby končil na , SchoolContext ne na ContosoUniversityContext.
+Aktualizovaný název kontextu: ContosoUniversity.Data.SchoolContext
+Vyberte Přidat a dokončete přidávání třídy kontextu dat.
+Vyberte Přidat a dokončete dialogové okno Přidat stránky Razor .
+Následující balíčky se nainstalují automaticky:
+
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+Microsoft.VisualStudio.Web.CodeGeneration.Design
+
+Proces Scaffold:
+
+Vytvoří stránky Razor ve složce Pages/Students :
+Create.cshtml a Create.cshtml.cs
+Delete.cshtml a Delete.cshtml.cs
+Details.cshtml a Details.cshtml.cs
+Edit.cshtml a Edit.cshtml.cs
+Index.cshtml a Index.cshtml.cs
+Vytváří Data/SchoolContext.cs.
+Přidá kontext k vkládání závislostí v Program.cs.
+Přidá řetězec pro připojení k databázi do appsettings.json.
+
+database: SchoolContext.cs upravit
+        public DbSet<Student> Student { get; set; }
+        public DbSet<Course> Course { get; set; }
+        public DbSet<Enrollment> Enrollment { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Student>().ToTable("Student");
+            modelBuilder.Entity<Course>().ToTable("Course");
+            modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
+        }
+
+
+// Přidat do Program.cs
+Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore// doinstalovat balíček NuGet Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
+nebo PowerShell: Install-Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
+// Přidat do Program.cs
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+// toto bylo přidáno
+else
+{
+    app.UseDeveloperExceptionPage();
+    app.UseMigrationsEndPoint();
+}
+
+Nasledně provedeme registarci kontextu databáze do DI kontejneru:
+
+using (var scope = app.Services.CreateScope())
+{
+
+   var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<SchoolContext>();
+        context.Database.EnsureCreated();
+       // DbInitializer.Initialize(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred creating the DB.");
+    }}
+
+Metoda EnsureCreated neprovede žádnou akci, pokud pro daný kontext 
+existuje databáze. Pokud žádná databáze neexistuje, 
+vytvoří databázi a schéma. EnsureCreatedUmožňuje 
+následující pracovní postup pro zpracování změn datového modelu:
+
+Smazat databázi. Veškerá existující data budou ztracena.
+Změňte datový model. Například přidejte EmailAddresspole.
+Spusťte aplikaci.
+EnsureCreatedvytvoří databázi s novým schématem.
+Tento pracovní postup funguje na začátku vývoje, 
+kdy se schéma rychle vyvíjí, pokud není nutné zachovat data. 
+Situace je jiná, když je třeba zachovat data zadaná do databáze. 
+V takovém případě použijte migrace
+
+Otestujte aplikaci ctrl+F5 - without debugging
