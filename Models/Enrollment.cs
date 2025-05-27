@@ -32,7 +32,7 @@ namespace ContosoUniversity.Models
         /// </summary>
         [DisplayFormat(NullDisplayText = "No grade")]
         public Grade? Grade { get; set; }
-
+        // Navigation property
         /// <summary>
         /// Gets or sets the course associated with the enrollment.
         /// </summary>
@@ -40,6 +40,6 @@ namespace ContosoUniversity.Models
         /// <summary>
         /// Gets or sets the student associated with the enrollment.
         /// </summary>
-        public Student Student { get; set; }
+        public Student? Student { get; set; }
     }
 }

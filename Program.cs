@@ -34,7 +34,7 @@ using (var scope = app.Services.CreateScope())
    
         var context = services.GetRequiredService<SchoolContext>();
     // Ensure the database is created and apply migrations
-    context.Database.EnsureCreated();
+   // context.Database.EnsureCreated();
     // Seed the database if necessary - uncomment the line below if you have a DbInitializer class
      DbInitializer.Initialize(context); 
 }

@@ -13,16 +13,41 @@ namespace ContosoUniversity.Data
             : base(options)
         {
         }
-
+        /// <summary>
+        /// Represents the collection of students in the school database.
+        /// </summary>
         public DbSet<Student> Students { get; set; }
+        /// <summary>
+        /// Represents the collection of enrollments in the school database.
+        /// </summary>
         public DbSet<Enrollment> Enrollments { get; set; }
+        /// <summary>
+        /// Represents the collection of courses in the school database.
+        /// </summary>
         public DbSet<Course> Courses { get; set; }
-
+        /// <summary>
+        /// Represents the collection of departments in the school database.
+        /// </summary>
+        public DbSet<Department> Departments { get; set; }
+        /// <summary>
+        /// Represents the collection of instructors in the school database.
+        /// </summary>
+        public DbSet<Instructor> Instructors { get; set; }
+        /// <summary>
+        /// Represents the collection of office assignments for instructors in the school database.
+        /// </summary>
+        public DbSet<OfficeAssignment> OfficeAssignments { get; set; }
+        /// <summary>
+        /// Configures the model for the SchoolContext using Fluent API.
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Course>().ToTable("Course");
-            modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
-            modelBuilder.Entity<Student>().ToTable("Student");
+            modelBuilder.Entity<Course>().ToTable(nameof(Course))
+                .HasMany(c => c.Instructors)
+                .WithMany(i => i.Courses);
+            modelBuilder.Entity<Student>().ToTable(nameof(Student));
+            modelBuilder.Entity<Instructor>().ToTable(nameof(Instructor));
         }
     }
 }
