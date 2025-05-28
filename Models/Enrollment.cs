@@ -18,15 +18,15 @@ namespace ContosoUniversity.Models
         /// <summary>
         /// Gets or sets the unique identifier for the enrollment record.
         /// </summary>
-        public int? EnrollmentID { get; set; }
+        public int EnrollmentID { get; set; }
         /// <summary>
         /// Gets or sets the unique identifier for the course associated with the enrollment.
         /// </summary>
-        public int? CourseID { get; set; }
+        public int CourseID { get; set; }
         /// <summary>
         /// Gets or sets the unique identifier for the student associated with the enrollment.
         /// </summary>
-        public int? StudentID { get; set; }
+        public int StudentID { get; set; }
         /// <summary>
         /// Gets or sets the grade received by the student in the course.
         /// </summary>

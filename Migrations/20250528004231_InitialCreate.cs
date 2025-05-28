@@ -50,7 +50,8 @@ namespace ContosoUniversity.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Budget = table.Column<decimal>(type: "money", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    InstructorID = table.Column<int>(type: "int", nullable: true)
+                    InstructorID = table.Column<int>(type: "int", nullable: true),
+                    ConcurrencyToken = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +87,7 @@ namespace ContosoUniversity.Migrations
                 {
                     CourseID = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Credits = table.Column<int>(type: "int", nullable: true),
+                    Credits = table.Column<int>(type: "int", nullable: false),
                     DepartmentID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -130,8 +131,8 @@ namespace ContosoUniversity.Migrations
                 {
                     EnrollmentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseID = table.Column<int>(type: "int", nullable: true),
-                    StudentID = table.Column<int>(type: "int", nullable: true),
+                    CourseID = table.Column<int>(type: "int", nullable: false),
+                    StudentID = table.Column<int>(type: "int", nullable: false),
                     Grade = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -141,12 +142,14 @@ namespace ContosoUniversity.Migrations
                         name: "FK_Enrollments_Course_CourseID",
                         column: x => x.CourseID,
                         principalTable: "Course",
-                        principalColumn: "CourseID");
+                        principalColumn: "CourseID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Enrollments_Student_StudentID",
                         column: x => x.StudentID,
                         principalTable: "Student",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

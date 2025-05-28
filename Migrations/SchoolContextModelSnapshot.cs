@@ -27,7 +27,7 @@ namespace ContosoUniversity.Migrations
                     b.Property<int>("CourseID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Credits")
+                    b.Property<int>("Credits")
                         .HasColumnType("int");
 
                     b.Property<int>("DepartmentID")
@@ -55,6 +55,12 @@ namespace ContosoUniversity.Migrations
                     b.Property<decimal>("Budget")
                         .HasColumnType("money");
 
+                    b.Property<byte[]>("ConcurrencyToken")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<int?>("InstructorID")
                         .HasColumnType("int");
 
@@ -81,13 +87,13 @@ namespace ContosoUniversity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnrollmentID"));
 
-                    b.Property<int?>("CourseID")
+                    b.Property<int>("CourseID")
                         .HasColumnType("int");
 
                     b.Property<int?>("Grade")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentID")
+                    b.Property<int>("StudentID")
                         .HasColumnType("int");
 
                     b.HasKey("EnrollmentID");
@@ -207,11 +213,15 @@ namespace ContosoUniversity.Migrations
                 {
                     b.HasOne("ContosoUniversity.Models.Course", "Course")
                         .WithMany("Enrollments")
-                        .HasForeignKey("CourseID");
+                        .HasForeignKey("CourseID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ContosoUniversity.Models.Student", "Student")
                         .WithMany("Enrollments")
-                        .HasForeignKey("StudentID");
+                        .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
 

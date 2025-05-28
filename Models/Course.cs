@@ -13,7 +13,7 @@ namespace ContosoUniversity.Models
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Number")]
-        public int? CourseID { get; set; }
+        public int CourseID { get; set; }
         /// <summary>
         /// Gets or sets the title of the course.
         /// </summary>
@@ -23,7 +23,7 @@ namespace ContosoUniversity.Models
         /// Gets or sets the number of credits awarded for completing the course.
         /// </summary>
         [Range(0, 5)]
-        public int? Credits { get; set; }
+        public int Credits { get; set; }
         /// <summary>
         /// Gets or sets the unique identifier(FK) for the department that offers the course.
         /// </summary>
