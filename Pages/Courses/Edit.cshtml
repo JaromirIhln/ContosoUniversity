@@ -15,10 +15,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Course.CourseID" />
             <div class="form-group">
-                
-                <label asp-for="Course.Title" class="control-label"></label>
-                <input asp-for="Course.Title" class="form-control" />
-                <span asp-validation-for="Course.Title" class="text-danger"></span>
+                <label asp-for="Course.CourseID" class="control-label"></label>
+                <div>@Html.DisplayFor(model => model.Course.CourseID)</div>
             </div>
             <div class="form-group">
                 

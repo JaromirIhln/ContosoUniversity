@@ -35,6 +35,9 @@ namespace ContosoUniversity.Models
         /// Gets or sets the unique identifier (FK) for the instructor who is the administrator of the department.
         /// </summary>
         public int? InstructorID { get; set; }
+        /// <summary>
+        /// ConcurrencyToken
+        /// </summary>
         [Timestamp]
         public byte[] ConcurrencyToken { get; set; }
         // Navigation properties
