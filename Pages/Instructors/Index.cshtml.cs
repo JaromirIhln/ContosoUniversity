@@ -10,9 +10,9 @@ namespace ContosoUniversity.Pages.Instructors
 {
     public class IndexModel : PageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly Data.SchoolContext _context;
 
-        public IndexModel(ContosoUniversity.Data.SchoolContext context)
+        public IndexModel(Data.SchoolContext context)
         {
             _context = context;
         }
@@ -42,11 +42,15 @@ namespace ContosoUniversity.Pages.Instructors
             if (courseID != null)
             {
                 CourseID = courseID.Value;
-                IEnumerable<Enrollment> Enrollments = await _context.Enrollments
-                    .Where(x => x.CourseID == CourseID)
-                    .Include(i => i.Student)
-                    .ToListAsync();
-                InstructorData.Enrollments = Enrollments;
+                var selectedCourse = InstructorData.Courses
+                    .Where(x => x.CourseID == courseID).Single();
+                await _context.Entry(selectedCourse)
+                              .Collection(x => x.Enrollments).LoadAsync();
+                foreach (Enrollment enrollment in selectedCourse.Enrollments)
+                {
+                    await _context.Entry(enrollment).Reference(x => x.Student).LoadAsync();
+                }
+                InstructorData.Enrollments = selectedCourse.Enrollments;
             }
         }
     }

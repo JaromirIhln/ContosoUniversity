@@ -45,7 +45,7 @@ namespace ContosoUniversity.Models
 
         // Navigation property
 
-        public ICollection<Course> Courses { get; set; } = new List<Course>();
+        public ICollection<Course> Courses { get; set; } // don't init
         public OfficeAssignment OfficeAssignment { get; set; }// Is not exist - created later in the course
     }
 }

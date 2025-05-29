@@ -24,6 +24,13 @@ namespace ContosoUniversity.Pages.Instructors
         public IActionResult OnGet()
         {
             var instructor = new Instructor();
+            Instructor = new Instructor
+            {
+                FirstMidName = "George",
+                LastName = "Washington",
+                HireDate = DateTime.Now
+            };
+
             instructor.Courses = new List<Course>();
 
             // Provides an empty collection for the foreach loop
@@ -80,7 +87,7 @@ namespace ContosoUniversity.Pages.Instructors
                 _logger.LogError(ex.Message);
             }
 
-            PopulateAssignedCourseData(_context, newInstructor);
+            PopulateAssignedCourseData(_context, Instructor);
             return Page();
         }
     }

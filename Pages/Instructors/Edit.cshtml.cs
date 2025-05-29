@@ -10,9 +10,9 @@ namespace ContosoUniversity.Pages.Instructors
 {
     public class EditModel : InstructorCoursesPageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly Data.SchoolContext _context;
 
-        public EditModel(ContosoUniversity.Data.SchoolContext context)
+        public EditModel(Data.SchoolContext context)
         {
             _context = context;
         }
@@ -27,11 +27,13 @@ namespace ContosoUniversity.Pages.Instructors
                 return NotFound();
             }
 
+#pragma warning disable CS8601 // Possible null reference assignment.
             Instructor = await _context.Instructors
                 .Include(i => i.OfficeAssignment)
                 .Include(i => i.Courses)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
+#pragma warning restore CS8601 // Possible null reference assignment.
 
             if (Instructor == null)
             {
@@ -40,7 +42,12 @@ namespace ContosoUniversity.Pages.Instructors
             PopulateAssignedCourseData(_context, Instructor);
             return Page();
         }
-
+        /// <summary>
+        /// Handles the POST request to update an instructor's details and their assigned courses.
+        /// </summary>
+        /// <param name="id">Instruktor id </param>
+        /// <param name="selectedCourses">selected courses</param>
+        /// <returns>Edited Instruktor if success</returns>
         public async Task<IActionResult> OnPostAsync(int? id, string[] selectedCourses)
         {
             if (id == null)
@@ -77,7 +84,11 @@ namespace ContosoUniversity.Pages.Instructors
             PopulateAssignedCourseData(_context, instructorToUpdate);
             return Page();
         }
-
+        /// <summary>
+        /// Updates the courses assigned to an instructor based on the selected courses from the UI.
+        /// </summary>
+        /// <param name="selectedCourses">Selected Courses</param>
+        /// <param name="instructorToUpdate">Instructor to Update</param>
         public void UpdateInstructorCourses(string[] selectedCourses,
                                             Instructor instructorToUpdate)
         {

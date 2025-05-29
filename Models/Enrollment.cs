@@ -7,7 +7,27 @@ namespace ContosoUniversity.Models
     /// </summary>
     public enum Grade
     {
-        A, B, C, D, F
+        /// <summary>
+        /// Represents a grade of A in the course.
+        /// </summary>
+        A,
+        /// <summary>
+        /// Represents a grade of B in the course.
+        /// </summary>
+        B,
+        /// <summary>
+        /// Represents a grade of C in the course.
+        /// </summary>
+        C,
+        /// <summary>
+        /// Represents a grade of D in the course.
+        /// </summary>
+        D,
+        /// <summary>
+        /// Represents a grade of F in the course.
+        /// </summary>
+        F
+
     }
     /// <summary>
     /// Represents an enrollment record that links a 
