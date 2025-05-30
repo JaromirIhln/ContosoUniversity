@@ -23,12 +23,16 @@ namespace ContosoUniversity.Pages.Instructors
 
         public IActionResult OnGet()
         {
-            var instructor = new Instructor();
-            Instructor = new Instructor
+            var instructor = new Instructor()
+           // Instructor = new Instructor
             {
                 FirstMidName = "George",
                 LastName = "Washington",
-                HireDate = DateTime.Now
+                HireDate = DateTime.Now,
+                OfficeAssignment = new OfficeAssignment
+                {
+                    Location = "Room 101"
+                }
             };
 
             instructor.Courses = new List<Course>();

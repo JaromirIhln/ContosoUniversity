@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
@@ -12,15 +8,15 @@ namespace ContosoUniversity.Pages.Courses
 {
     public class DeleteModel : PageModel
     {
-        private readonly ContosoUniversity.Data.SchoolContext _context;
+        private readonly SchoolContext _context;
 
-        public DeleteModel(ContosoUniversity.Data.SchoolContext context)
+        public DeleteModel(SchoolContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Course Course { get; set; } = default!;
+        public Course? Course { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -41,7 +37,11 @@ namespace ContosoUniversity.Pages.Courses
 
             return Page();
         }
-
+        /// <summary>
+        /// Delete course
+        /// </summary>
+        /// <param name="id">id course to delete</param>
+        /// <returns>Success if exist</returns>
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
